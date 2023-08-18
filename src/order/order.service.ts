@@ -36,12 +36,18 @@ export class OrderService implements OnModuleInit {
     );
 
     if (product.status >= HttpStatus.NOT_FOUND) {
-      return { id: null, error: ['Product not found'], status: product.status };
+      return {
+        id: null,
+        error: ['Product not found'],
+        status: product.status,
+        message: 'Product not found',
+      };
     } else if (product.data.stock < data.quantity) {
       return {
         id: null,
         error: ['Stock too less'],
         status: HttpStatus.CONFLICT,
+        message: 'Stock too less',
       };
     }
 
@@ -74,9 +80,15 @@ export class OrderService implements OnModuleInit {
         id: null,
         error: decreasedStockData.error,
         status: HttpStatus.CONFLICT,
+        message: 'Decreasing stock failed',
       };
     }
 
-    return { id: order.id, error: null, status: HttpStatus.OK };
+    return {
+      id: order.id,
+      error: null,
+      status: HttpStatus.OK,
+      message: 'Order created successfully',
+    };
   }
 }
